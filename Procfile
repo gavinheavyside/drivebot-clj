@@ -1,0 +1,1 @@
+app: lein run
