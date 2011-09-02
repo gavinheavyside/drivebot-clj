@@ -5,15 +5,9 @@
             [clojure.contrib.find-namespaces :as ns]))
 
 
-(defn say [args]
-   (cf/send-message args))
-
-(defn help []
-  (cf/send-message "usage: drivebot <command> [args]"))
-
 (defn handle-command [command args]
   (m/match [command]
-    [("" | "help")] (help)
+    [("" | "help")] (cf/send-message "usage: drivebot <command> [args]")
     :else (cf/send-message "I don't know that command")))
 
 (defn command-for-drivebot [target]
