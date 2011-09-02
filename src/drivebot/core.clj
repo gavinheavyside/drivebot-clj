@@ -13,14 +13,16 @@
 
 (defn handle-command [command args]
   (m/match [command]
-    ["done"] () ;; no-op - already handled
     [("" | "help")] (help)
     :else (cf/send-message "I don't know that command")))
 
 (defn command-for-drivebot [target]
   (= target "drivebot"))
 
+(defn handle-phrase [message])
+
 (defn process [message]
+  (handle-phrase (s/join " " message))
   (if (command-for-drivebot (first message))
     (let [cmd  (str (second message))
           args (apply str (drop 2 message))]

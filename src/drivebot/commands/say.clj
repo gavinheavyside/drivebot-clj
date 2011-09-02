@@ -3,11 +3,8 @@
              [robert.hooke :as rh]))
 
 (defn say-hook [f command args]
-  (println command)
-  (println args)
   (if (= command "say")
-    ((cf/send-message args)
-     (f "done" ""))
+    (cf/send-message args)
     (f command args)))
 
 (println "loading say")
