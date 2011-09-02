@@ -7,7 +7,6 @@
                     "http://img.skitch.com/20100714-d6q52xajfh4cimxr3888yb77ru.jpg"])
 
 (defn shipit-hook [f message]
-  (println message)
   (if (re-find #"ship it" message)
       (cf/send-message (rand-nth squirrel-uris))
       (f message)))
