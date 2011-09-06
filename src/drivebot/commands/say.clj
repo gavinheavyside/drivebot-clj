@@ -1,6 +1,6 @@
- (ns drivebot.commands.say
-   (:require [drivebot.campfire :as cf]
-             [robert.hooke :as rh]))
+(ns drivebot.commands.say
+  (:require [drivebot.campfire :as cf]
+            [robert.hooke :as rh]))
 
 (defn say-hook [f command args]
   (if (= command "say")
