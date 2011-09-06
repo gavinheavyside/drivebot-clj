@@ -1,14 +1,11 @@
 (ns drivebot.core
   (:require [drivebot.campfire :as cf]
             [clojure.string :as s]
-            [match.core :as m]
             [clojure.contrib.find-namespaces :as ns]))
 
 
 (defn handle-command [command args]
-  (m/match [command]
-    [("" | "help")] (cf/send-message "usage: drivebot <command> [args]")
-    :else (cf/send-message "I don't know that command")))
+  (cf/send-message "I don't know that command"))
 
 (defn command-for-drivebot [target]
   (= target "drivebot"))
@@ -28,9 +25,10 @@
 (defn message-handler [item]
   (if-let [user-id (:user_id item)]
     (if-not (from-drivebot user-id)
-      (let [;;username (cf/username-for-id user-id)
-            message (s/split (s/trim (:body item)) #"\s+" 3)]
-        (process message)))))
+      (if-let [body (:body item)]
+        (let [;;username (cf/username-for-id user-id)
+              message (s/split body #"\s+" 3)]
+          (process message))))))
 
 (defn drivebot-command-namespaces []
   (let [all-ns (ns/find-namespaces-on-classpath)]
