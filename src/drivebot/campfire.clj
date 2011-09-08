@@ -45,12 +45,13 @@
     (c/await response)))
 
 (defn start [message-handler]
-  (with-open [client (c/create-client)]
-    (binding [*client* client]
-      (join-room)
-      (let [streaming-uri (str streaming-base-uri room "/live.json")
-            resp (c/stream-seq *client* :get streaming-uri
-                                        :auth auth)]
-        (println "starting streaming")
-        (doseq [item-str (c/string resp)]
-          (message-handler (j/decode item-str)))))))
+  (while true
+    (with-open [client (c/create-client)]
+      (binding [*client* client]
+        (join-room)
+        (let [streaming-uri (str streaming-base-uri room "/live.json")
+              resp (c/stream-seq *client* :get streaming-uri
+                                          :auth auth)]
+          (println "(re)starting streaming")
+          (doseq [item-str (c/string resp)]
+            (message-handler (j/decode item-str))))))))
